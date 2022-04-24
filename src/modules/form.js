@@ -384,6 +384,8 @@ layui.define('layer', function(exports){
               
               thatInput = input; //当前的 select 中的 input 元素
               initValue = $(select[0].options[selectedIndex]).html(); //重新获得初始选中值
+              // FIX 避免出现前后出现空格
+              initValue = $.trim(initValue);
               
               //如果是第一项，且文本值等于 placeholder，则清空初始值
               if(selectedIndex === 0 && initValue === input.attr('placeholder')){
