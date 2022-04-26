@@ -182,20 +182,36 @@ layui.define('layer', function(exports){
           
           //展开下拉
           var showDown = function(){
-            var top = reElem.offset().top + reElem.outerHeight() + 5 - $win.scrollTop()
+            var offset = reElem.offset();
+            var top = offset.top + reElem.outerHeight() + 5 - $win.scrollTop()
             ,dlHeight = dl.outerHeight();
-            
+
+            var left = offset.left;
+            var width = title.outerWidth();
+            var right = $win.width() - left + width;  
+            console.log(offset)
+
+      
             index = select[0].selectedIndex; //获取最新的 selectedIndex
             reElem.addClass(CLASS+'ed');
             dds.removeClass(HIDE);
             nearElem = null;
 
+            // fixed 避免被搞
+            dl.css("top",top);
+            dl.css("left",left);
+            dl.css("right",$win.width() - left - width);
+            dl.css("position","fixed");
+            dl.css("min-width","inherit");
+
             //初始选中样式
             dds.eq(index).addClass(THIS).siblings().removeClass(THIS);
 
-            //上下定位识别
+            //上下定位识别 这里计算有点点问题
             if(top + dlHeight > $win.height() && top >= dlHeight){
-              reElem.addClass(CLASS + 'up');
+              // reElem.addClass(CLASS + 'up');
+              dl.css("top",(offset.top - dlHeight));
+              dl.css('bottom',"auto")
             }
             
             followScroll();
